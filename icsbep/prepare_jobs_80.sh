@@ -30,15 +30,17 @@ do
 #PBS -l walltime=72:00:00
 #PBS -j oe
 
+cd \$PBS_O_WORKDIR
+PATH=\$PBS_O_PATH
+
+echo \$PBS_O_WORKDIR
+
 module purge
 module load openmc/gnu/develop
 export OMP_NUM_THREADS=1
 export OPENMC_CROSS_SECTIONS=/home/shared/nuclear-data/lib80x_hdf5/cross_sections.xml
 
-cd \$PBS_O_WORKDIR
-PATH=\$PBS_O_PATH
-
-echo \$PBS_O_WORKDIR
+python3 generate_materials.py 
 mpiexec -rmk pbs openmc
 EOF
   fi
